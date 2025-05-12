@@ -1,0 +1,71 @@
+import nltk
+nltk.download('punkt')
+# NLP Practical Assignment 2
+# Bag of Words (Count, Normalized), TF-IDF, Word2Vec Embeddings
+
+import nltk
+import numpy as np
+from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
+from gensim.models import Word2Vec
+from nltk.tokenize import word_tokenize
+
+# Download resources once for offline use
+nltk.download('punkt')
+
+# Sample corpus
+corpus = [
+    "Natural language processing is a part of artificial intelligence.",
+    "Machine learning and NLP are closely related fields.",
+    "Word embeddings help NLP systems understand semantics."
+]
+
+print("\n--------------------")
+print("1. BAG OF WORDS")
+print("--------------------")
+
+# Count Vectorizer (Raw count)
+count_vectorizer = CountVectorizer()
+count_matrix = count_vectorizer.fit_transform(corpus)
+
+print("\nCount Vectorizer (Raw Frequency):")
+print("Feature Names:", count_vectorizer.get_feature_names_out())
+print("BoW Matrix:\n", count_matrix.toarray())
+
+# Normalized count (Term Frequency manually)
+print("\nNormalized Count (Term Frequency):")
+tf_matrix = count_matrix.toarray().astype(float)
+for i, row in enumerate(tf_matrix):
+    tf_matrix[i] = row / np.sum(row)
+print(tf_matrix)
+
+print("\n--------------------")
+print("2. TF-IDF")
+print("--------------------")
+
+# TF-IDF Vectorizer
+tfidf_vectorizer = TfidfVectorizer()
+tfidf_matrix = tfidf_vectorizer.fit_transform(corpus)
+
+print("\nTF-IDF Matrix:")
+print("Feature Names:", tfidf_vectorizer.get_feature_names_out())
+print(tfidf_matrix.toarray())
+
+print("\n--------------------")
+print("3. WORD2VEC EMBEDDINGS")
+print("--------------------")
+
+# Tokenize corpus for Word2Vec
+tokenized_corpus = [word_tokenize(sent.lower()) for sent in corpus]
+
+# Train Word2Vec model
+w2v_model = Word2Vec(sentences=tokenized_corpus, vector_size=50, window=5, min_count=1, workers=2)
+
+# Print embedding for a sample word
+print("\nWord2Vec Embedding for 'nlp':")
+print(w2v_model.wv['nlp'])
+
+# Print vocabulary
+print("\nVocabulary in Word2Vec model:")
+print(list(w2v_model.wv.index_to_key))
+
+print("\n All vectorizations completed.")
