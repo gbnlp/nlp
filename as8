@@ -1,0 +1,57 @@
+pip install gensim nltk
+import os
+import nltk
+from nltk.tokenize import word_tokenize
+from gensim.models import FastText
+from gensim.models import KeyedVectors
+
+# Download necessary tokenizer
+nltk.download('punkt')
+
+# Sample COVID-19-related sentences (simulate dataset)
+covid_data = [
+    "COVID-19 pandemic has affected millions of lives globally.",
+    "Vaccination is the key to controlling the spread of the virus.",
+    "Lockdowns were imposed to prevent transmission.",
+    "The healthcare system faced a significant burden.",
+    "Many people worked remotely during the outbreak.",
+    "Precautionary measures like masking and distancing are crucial."
+]
+
+# Tokenize sentences
+tokenized_data = [word_tokenize(sentence.lower()) for sentence in covid_data]
+
+# FastText Embedding
+
+
+# Train FastText model
+fasttext_model = FastText(sentences=tokenized_data, vector_size=100, window=5, min_count=1, sg=1, epochs=10)
+
+# Save FastText vectors
+fasttext_model.save("fasttext_covid.model")
+fasttext_model.wv.save_word2vec_format("fasttext_covid.vec")
+
+# Show vector for a word
+print("\nFastText Vector for 'covid-19':")
+print(fasttext_model.wv['covid-19'])
+
+
+#  GloVe Embedding (Pretrained)
+
+
+# NOTE: Make sure to download glove.6B.100d.txt and place it in the working directory
+# Download link: http://nlp.stanford.edu/data/glove.6B.zip
+
+glove_file = "glove.6B.100d.txt"  # 100-dimensional GloVe embeddings
+
+if not os.path.exists(glove_file):
+    print("\nGloVe file not found. Please download glove.6B.100d.txt and place it in the working directory.")
+else:
+    glove_model = KeyedVectors.load_word2vec_format(glove_file, binary=False, no_header=False)
+
+    # Save GloVe vector for the word 'virus'
+    with open("glove_virus_vector.txt", "w") as f:
+        f.write(f"Vector for 'virus':\n{glove_model['virus']}")
+
+    print("\nGloVe Vector for 'virus':")
+    print(glove_model['virus'])
