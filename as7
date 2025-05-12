@@ -1,1 +1,68 @@
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.decomposition import NMF
+import numpy as np
+
+# Sample documents
+documents = [
+    "The cat sat on the mat.",
+    "Dogs and cats are great pets.",
+    "I love to play football on weekends.",
+    "Football and cricket are popular sports.",
+    "My cat loves fish.",
+    "The dog chased the ball.",
+    "Sports like football and cricket bring people together."
+]
+
+# Convert text to TF-IDF matrix
+vectorizer = TfidfVectorizer(stop_words='english')
+X = vectorizer.fit_transform(documents)
+
+# Apply NMF
+n_topics = 2
+nmf_model = NMF(n_components=n_topics, random_state=42)
+W = nmf_model.fit_transform(X)
+H = nmf_model.components_
+
+# Display topics
+feature_names = vectorizer.get_feature_names_out()
+for topic_idx, topic in enumerate(H):
+    print(f"\nTopic #{topic_idx + 1}:")
+    top_words = [feature_names[i] for i in topic.argsort()[:-6:-1]]
+    print("Top words:", top_words)
+
+# Reconstruction error (lower is better)
+reconstruction_err = nmf_model.reconstruction_err_
+print(f"\nReconstruction Error: {reconstruction_err:.4f}")
+
+
+7b
+import nltk
+from nltk.wsd import lesk
+from nltk.corpus import wordnet as wn
+from nltk.tokenize import word_tokenize
+
+# Download required NLTK data
+nltk.download('punkt')
+nltk.download('wordnet')
+nltk.download('omw-1.4')
+
+# Sentence where "bank" is ambiguous
+sentence = "He went to the bank to deposit his money."
+word = "bank"
+
+# Tokenize sentence
+tokens = word_tokenize(sentence)
+
+# Apply Lesk algorithm
+sense = lesk(tokens, word)
+
+# Show the best sense
+print(f"\nWord: {word}")
+print("Context Sentence:", sentence)
+if sense:
+    print("Predicted Sense:", sense.name())
+    print("Definition:", sense.definition())
+    print("Example(s):", sense.examples())
+else:
+    print("No sense could be determined.")
 
