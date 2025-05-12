@@ -1,0 +1,93 @@
+# NLP Practical Assignment 1
+# Perform Tokenization (Whitespace, Punctuation-based, Treebank, Tweet, MWE)
+# Apply Stemming (Porter, Snowball)
+# Apply Lemmatization (WordNet)
+
+import nltk
+nltk.download('punkt')
+nltk.download('wordnet')
+nltk.download('omw-1.4')  # Optional, for WordNet Lemmatizer
+
+
+import nltk
+from nltk.tokenize import (
+    WhitespaceTokenizer, WordPunctTokenizer, TreebankWordTokenizer,
+    TweetTokenizer, MWETokenizer
+)
+from nltk.stem import PorterStemmer, SnowballStemmer
+from nltk.stem import WordNetLemmatizer
+from pprint import pprint
+
+# Sample input text
+sample_text = "I'm learning NLP! It's exciting, isn't it? Natural Language Processing is fun. Let's meet in New York."
+
+
+#         TOKENIZATION          #
+print("\n" + "="*60)
+print("1️⃣  TOKENIZATION")
+print("="*60)
+
+# 1. Whitespace Tokenizer
+print("\n📌 Whitespace Tokenizer:")
+ws_tokenizer = WhitespaceTokenizer()
+ws_tokens = ws_tokenizer.tokenize(sample_text)
+pprint(ws_tokens)
+
+# 2. WordPunct (Punctuation-based) Tokenizer
+print("\n📌 WordPunct (Punctuation-based) Tokenizer:")
+wp_tokenizer = WordPunctTokenizer()
+wp_tokens = wp_tokenizer.tokenize(sample_text)
+pprint(wp_tokens)
+
+# 3. Treebank Tokenizer
+print("\n📌 Treebank Tokenizer:")
+tb_tokenizer = TreebankWordTokenizer()
+tb_tokens = tb_tokenizer.tokenize(sample_text)
+pprint(tb_tokens)
+
+# 4. Tweet Tokenizer
+print("\n📌 Tweet Tokenizer:")
+tweet_tokenizer = TweetTokenizer()
+tweet_tokens = tweet_tokenizer.tokenize(sample_text)
+pprint(tweet_tokens)
+
+# 5. MWE Tokenizer (Multi-Word Expressions)
+print("\n📌 MWE (Multi-Word Expression) Tokenizer:")
+mwe_tokenizer = MWETokenizer([("Natural", "Language"), ("New", "York")])
+mwe_tokens = mwe_tokenizer.tokenize(sample_text.split())
+pprint(mwe_tokens)
+
+
+#           STEMMING            #
+print("\n" + "="*60)
+print("2️⃣  STEMMING")
+print("="*60)
+
+# Initialize stemmers
+porter = PorterStemmer()
+snowball = SnowballStemmer("english")
+
+print("\n🔹 Porter Stemmer:")
+porter_stemmed = [porter.stem(token) for token in tb_tokens]
+print("Original Tokens  :", tb_tokens)
+print("Porter Stemmed   :", porter_stemmed)
+
+print("\n🔹 Snowball Stemmer:")
+snowball_stemmed = [snowball.stem(token) for token in tb_tokens]
+print("Original Tokens  :", tb_tokens)
+print("Snowball Stemmed :", snowball_stemmed)
+
+#        LEMMATIZATION          #
+
+print("\n" + "="*60)
+print("3️⃣  LEMMATIZATION")
+print("="*60)
+
+lemmatizer = WordNetLemmatizer()
+lemmatized_tokens = [lemmatizer.lemmatize(token) for token in tb_tokens]
+
+print("\n🔹 WordNet Lemmatizer:")
+print("Original Tokens   :", tb_tokens)
+print("Lemmatized Tokens :", lemmatized_tokens)
+
+print("\n✅ All tasks completed successfully.")
