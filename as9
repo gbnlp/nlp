@@ -1,0 +1,77 @@
+import nltk
+from nltk import ngrams
+from collections import Counter
+nltk.download('punkt')
+
+# Sample corpus
+corpus = [
+    "the quick brown fox",
+    "the slow brown dog",
+    "the quick red dog",
+    "the lazy yellow fox"
+]
+
+# Tokenize corpus
+tokens = []
+for sentence in corpus:
+    words = nltk.word_tokenize(sentence.lower())
+    tokens.extend(words)
+
+# Unigrams
+unigrams = list(ngrams(tokens, 1))
+print("\nUnigrams:")
+print(Counter(unigrams))
+
+# Bigrams
+bigrams = list(ngrams(tokens, 2))
+print("\nBigrams:")
+print(Counter(bigrams))
+
+# Trigrams
+trigrams = list(ngrams(tokens, 3))
+print("\nTrigrams:")
+print(Counter(trigrams))
+
+#9b
+import nltk
+from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
+from sklearn.decomposition import LatentDirichletAllocation, TruncatedSVD
+nltk.download('punkt')
+
+# Text data
+documents = [
+    "the quick brown fox",
+    "the slow brown dog",
+    "the quick red dog",
+    "the lazy yellow fox"
+]
+
+
+#  Latent Dirichlet Allocation (LDA)
+
+vectorizer = CountVectorizer(stop_words='english')
+X = vectorizer.fit_transform(documents)
+
+lda = LatentDirichletAllocation(n_components=2, random_state=42)
+lda.fit(X)
+
+print("\n LDA Topics:")
+terms = vectorizer.get_feature_names_out()
+for idx, topic in enumerate(lda.components_):
+    top_terms = [terms[i] for i in topic.argsort()[:-4:-1]]
+    print(f"Topic {idx + 1}: {top_terms}")
+
+
+#  Latent Semantic Analysis (LSA)
+
+tfidf_vectorizer = TfidfVectorizer(stop_words='english')
+X_tfidf = tfidf_vectorizer.fit_transform(documents)
+
+lsa = TruncatedSVD(n_components=2, random_state=42)
+lsa.fit(X_tfidf)
+
+print("\n LSA Topics:")
+tfidf_terms = tfidf_vectorizer.get_feature_names_out()
+for idx, component in enumerate(lsa.components_):
+    top_terms = [tfidf_terms[i] for i in component.argsort()[:-4:-1]]
+    print(f"Topic {idx + 1}: {top_terms}")
