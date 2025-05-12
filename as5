@@ -1,0 +1,46 @@
+import nltk
+from nltk import word_tokenize, pos_tag, RegexpParser
+
+# Download required NLTK resources (only once)
+nltk.download('punkt')
+nltk.download('averaged_perceptron_tagger')
+
+# Sample sentence
+sentence = "The quick brown fox jumps over the lazy dog."
+
+# Tokenization and POS tagging
+tokens = word_tokenize(sentence)
+pos_tags = pos_tag(tokens)
+
+# Define a simple noun phrase chunk grammar
+grammar = "NP: {<DT>?<JJ>*<NN>}"
+
+# Create a chunk parser
+chunk_parser = RegexpParser(grammar)
+chunked = chunk_parser.parse(pos_tags)
+
+# Display the result
+print("Shallow Parse Tree:")
+print(chunked)
+chunked.draw()  # Opens a window with a parse tree (optional)
+
+
+import re
+
+text = """
+John's email is john.doe@example.com and he lives in New York.
+You can also contact him at +1-202-555-0187. He works at OpenAI.
+"""
+
+# Extract email
+emails = re.findall(r'\b[\w\.-]+@[\w\.-]+\.\w+\b', text)
+
+# Extract phone numbers
+phones = re.findall(r'\+\d{1,2}-\d{3}-\d{3}-\d{4}', text)
+
+# Extract capitalized words (e.g., Names or Locations)
+caps = re.findall(r'\b[A-Z][a-z]+\b', text)
+
+print("Emails:", emails)
+print("Phone Numbers:", phones)
+print("Capitalized Words:", caps)
