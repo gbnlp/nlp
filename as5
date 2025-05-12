@@ -1,28 +1,46 @@
 import nltk
-from nltk import word_tokenize, pos_tag, RegexpParser
+import os
+import matplotlib
 
-# Download required NLTK resources (only once)
+# Download necessary NLTK data (only run once)
 nltk.download('punkt')
 nltk.download('averaged_perceptron_tagger')
 
+# Fix display issue for matplotlib tree visualization (optional)
+if os.environ.get('DISPLAY', '') == '':
+    print('No display found. Using :0.0')
+    os.environ['DISPLAY'] = ':0.0'
+
+matplotlib.use('Agg')  # Use non-interactive backend for safer rendering
+
+# Preprocessing function: tokenize, POS tag
+def preprocess(text):
+    sentences = nltk.sent_tokenize(text)
+    sentences = [nltk.word_tokenize(sent) for sent in sentences]
+    sentences = [nltk.pos_tag(sent) for sent in sentences]
+    return sentences
+
 # Sample sentence
-sentence = "The quick brown fox jumps over the lazy dog."
+sentence = "The blogger taught the reader to chunk"
+processed_sentence = preprocess(sentence)
 
-# Tokenization and POS tagging
-tokens = word_tokenize(sentence)
-pos_tags = pos_tag(tokens)
-
-# Define a simple noun phrase chunk grammar
+# Define a simple grammar rule for noun phrases (NP)
 grammar = "NP: {<DT>?<JJ>*<NN>}"
 
-# Create a chunk parser
-chunk_parser = RegexpParser(grammar)
-chunked = chunk_parser.parse(pos_tags)
+# Create chunk parser
+chunk_parser = nltk.RegexpParser(grammar)
 
-# Display the result
-print("Shallow Parse Tree:")
-print(chunked)
-chunked.draw()  # Opens a window with a parse tree (optional)
+# Apply chunking to the first sentence
+chunked_tree = chunk_parser.parse(processed_sentence[0])
+
+# Print the result tree structure
+print("\nChunked Tree:\n")
+print(chunked_tree)
+
+# Optional: Pretty print tree structure in terminal
+print("\nPretty Printed Tree:\n")
+chunked_tree.pretty_print()
+
 
 
 import re
