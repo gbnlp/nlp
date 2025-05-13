@@ -28,14 +28,3 @@ topic modelling using text: &#39;the quick brown fox&#39;,
 10. Fine tune a pre-trained transformer for any of the following tasks on any relevant
 dataset of your choice:  1. Neural Machine Translation  2. Classification 
 
-LDA:
-       &#39;The cat sat on the mat.&#39;,
-        &#39;Dogs are great pets.&#39;,
-        &#39;I love to play football.&#39;,
-        &#39;Data science is an interdisciplinary field.&#39;,
-        &#39;Python is a great programming language.&#39;,
-        &#39;Machine learning is a subset of artificial intelligence.&#39;,
-        &#39;Artificial intelligence and machine learning are popular topics.&#39;,
-        &#39;Deep learning is a type of machine learning.&#39;,
-        &#39;Natural language processing involves analyzing text data.&#39;,
-        &#39;I enjoy hiking and outdoor activities.
