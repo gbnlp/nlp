@@ -14,17 +14,21 @@ to the European Central Bank later Thursday for reassurance that surging prices 
 just transitory, and not about to spiral out of control. In addition to the ECB policy
 meeting, investors are awaiting a report later Thursday on US economic growth,
 which is likely to show a cooling recovery, as well as weekly jobs data.”.&#39;&#39;&#39;
+
 7.A) Implementing Non-Negative Matrix Factorization (NMF) for topic modeling and
 evaluate using the reconstruction error.
 B) Implement Wordnet to show Word Disambiguition.
+
 8.Perform word Embedding techniques on covid-19 dataset using FastText and Glove.
 Save outputs.
+
 9.A) Implement n-gram model.
 B) Implement Latent Dirichilet Allocation model and Latent Semantic Analysis for
 topic modelling using text: &#39;the quick brown fox&#39;,
        &#39;the slow brown dog&#39;,
        &#39;the quick red dog&#39;,
        &#39;the lazy yellow fox &#39;
+       
 10. Fine tune a pre-trained transformer for any of the following tasks on any relevant
 dataset of your choice:  1. Neural Machine Translation  2. Classification 
 
